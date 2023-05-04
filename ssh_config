@@ -1,0 +1,42 @@
+Host bastionNSO
+    User ubuntu
+    HostName <ip address>
+    IdentityFile ~/.ssh/f1
+    ForwardAgent yes
+    StrictHostKeyChecking no
+    ControlPath ~/.ssh/ansible-%r@%h:%p
+    PasswordAuthentication no
+    ControlMaster auto
+    ControlPersist yes
+    
+
+Host HAproxy
+    User ubuntu
+    HostName <ip address>
+    IdentityFile ~/.ssh/f1
+    StrictHostKeyChecking no
+    PasswordAuthentication no
+
+Host devA
+    User ubuntu
+    HostName <ip address>
+    IdentityFile ~/.ssh/f1
+    ProxyCommand ssh -W %h:%p bastionNSO
+    StrictHostKeyChecking no
+    PasswordAuthentication no
+
+Host devB
+    User ubuntu
+    HostName <ip address>
+    IdentityFile ~/.ssh/f1
+    ProxyCommand ssh -W %h:%p bastionNSO
+    StrictHostKeyChecking no
+    PasswordAuthentication no
+
+Host devC
+    User ubuntu 
+    HostName <ip address>
+    IdentityFile ~/.ssh/f1
+    ProxyCommand ssh -W %h:%p bastionNSO
+    StrictHostKeyChecking no
+    PasswordAuthentication no
