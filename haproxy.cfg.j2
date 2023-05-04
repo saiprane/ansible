@@ -33,18 +33,17 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 	
-frontend public
-    bind :80
-    default_backend webservers
+frontend haproxynode
+    bind *:80
+    default_backend backendnodes
 
-backend webservers
-{% for host in groups['webservers'] %}
-    server  {{ host }} {{ hostvars[host]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}:80
-{% endfor %}
+backend backendnodes
+    {% for servers in groups["webservers"] %}
+        server  {{ servers }} {{ hostvars[servers]['ansible_default_ipv4']['address'] }}:8080 check
+    {% endfor %}
 
 listen stats
     bind *:8404
     stats enable
     stats uri /monito
     stats refresh 5s
-    
