@@ -41,9 +41,3 @@ backend backendnodes
     {% for servers in groups["webservers"] %}
         server  {{ servers }} {{ hostvars[servers]['ansible_default_ipv4']['address'] }}:8080 check
     {% endfor %}
-
-listen stats
-    bind *:8404
-    stats enable
-    stats uri /monito
-    stats refresh 5s
