@@ -38,6 +38,9 @@ frontend haproxynode
     default_backend backendnodes
 
 backend backendnodes
+	balance roundrobin
+	mode http
+	option forwardfor
     {% for servers in groups["webservers"] %}
         server  {{ servers }} {{ hostvars[servers]['ansible_default_ipv4']['address'] }}:8080 check
     {% endfor %}
